@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Willy's WallStreet (Single Page)</title>
+    
+    <!-- Bootstrap CSS -->
+    <link 
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    >
+
+    <!-- Ion.RangeSlider CSS -->
+    <link 
+      rel="stylesheet" 
+      href="https://cdn.jsdelivr.net/npm/ion-rangeslider@2.3.1/css/ion.rangeSlider.min.css"
+    />
+    
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet">
+
+
+    <!-- Your custom CSS (optional) -->
+    <link 
+      rel="stylesheet" 
+      href="{{ url_for('static', filename='index.css') }}"
+    >
+  </head>
+  <body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <header class="hero-section text-center py-5">
+            <h1 class="hero-title">Willy's WallStreet</h1>
+          </header>          
+    </nav>
+
+    <div class="container mt-5">
+      <!-- Flash Messages -->
+      {% with messages = get_flashed_messages() %}
+        {% if messages %}
+          <div class="alert alert-warning">
+            {{ messages[0] }}
+          </div>
+        {% endif %}
+      {% endwith %}
+
+      <!-- Bootstrap Nav Tabs -->
+      <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item">
+          <button 
+            class="nav-link {% if active_tab == 'chart' %}active{% endif %}" 
+            id="chart-tab" 
+            data-bs-toggle="tab" 
+            data-bs-target="#chart-tab-pane" 
+            type="button" 
+            role="tab" 
+            aria-controls="chart-tab-pane" 
+            aria-selected="{{ 'true' if active_tab == 'chart' else 'false' }}">
+            A - Price Chart
+          </button>
+        </li>
+        <li class="nav-item">
+          <button 
+            class="nav-link {% if active_tab == 'compare' %}active{% endif %}" 
+            id="compare-tab" 
+            data-bs-toggle="tab" 
+            data-bs-target="#compare-tab-pane" 
+            type="button" 
+            role="tab" 
+            aria-controls="compare-tab-pane" 
+            aria-selected="{{ 'true' if active_tab == 'compare' else 'false' }}">
+            B - Compare Stocks
+          </button>
+        </li>
+        <li class="nav-item">
+          <button 
+            class="nav-link {% if active_tab == 'strategy' %}active{% endif %}" 
+            id="strategy-tab" 
+            data-bs-toggle="tab" 
+            data-bs-target="#strategy-tab-pane" 
+            type="button" 
+            role="tab" 
+            aria-controls="strategy-tab-pane" 
+            aria-selected="{{ 'true' if active_tab == 'strategy' else 'false' }}">
+            C - Strategies
+          </button>
+        </li>
+      </ul>
+
+      <div class="tab-content" id="myTabContent">
+        
+        <!-- TAB A: Show Price Chart -->
+        <div 
+          class="tab-pane fade {% if active_tab == 'chart' %}show active{% endif %}" 
+          id="chart-tab-pane" 
+          role="tabpanel" 
+          aria-labelledby="chart-tab">
+          <div class="p-3">
+            <h3>Show me the price chart of a stock</h3>
+            <form method="POST">
+              <input type="hidden" name="form_type" value="chart">
+              
+              <div class="mb-3">
+                <label for="symbol" class="form-label">Stock Symbol</label>
+                <input 
+                  type="text" 
+                  class="form-control" 
+                  id="symbol" 
+                  name="symbol" 
+                  placeholder="e.g., AAPL" 
+                  required
+                >
+              </div>
+              
+              <!-- Slider for date range (Tab A) -->
+              <div class="mb-3">
+                <label for="date_range" class="form-label">Select Date Range:</label>
+                <input type="text" id="date_range" name="date_range">
+              </div>
+              
+              <!-- Hidden fields to store actual start and end dates -->
+              <input type="hidden" id="start_date" name="start_date">
+              <input type="hidden" id="end_date" name="end_date">
+              
+              <button type="submit" class="btn btn-primary">Get Chart</button>
+            </form>
+
+            {% if chart_html %}
+              <div class="mt-4">
+                {{ chart_html|safe }}
+              </div>
+            {% endif %}
+          </div>
+        </div>
+
+        <!-- TAB B: Compare Stocks -->
+        <div 
+          class="tab-pane fade {% if active_tab == 'compare' %}show active{% endif %}" 
+          id="compare-tab-pane" 
+          role="tabpanel" 
+          aria-labelledby="compare-tab">
+          <div class="p-3">
+            <h3>Compare Two Stocks</h3>
+            <form method="POST">
+              <input type="hidden" name="form_type" value="compare">
+              
+              <div class="mb-3">
+                <label for="symbol1" class="form-label">First Symbol</label>
+                <input 
+                  type="text" 
+                  class="form-control" 
+                  id="symbol1" 
+                  name="symbol1" 
+                  placeholder="e.g., MSFT" 
+                  required
+                >
+              </div>
+
+              <div class="mb-3">
+                <label for="symbol2" class="form-label">Second Symbol</label>
+                <input 
+                  type="text" 
+                  class="form-control" 
+                  id="symbol2" 
+                  name="symbol2" 
+                  placeholder="e.g., TSLA" 
+                  required
+                >
+              </div>
+
+              <!-- Slider for date range (Tab B) -->
+              <div class="mb-3">
+                <label for="date_range_compare" class="form-label">Select Date Range:</label>
+                <input type="text" id="date_range_compare" name="date_range_compare">
+              </div>
+              
+              <!-- Hidden fields for actual start/end dates (Tab B) -->
+              <input type="hidden" id="start_date_compare" name="start_date">
+              <input type="hidden" id="end_date_compare" name="end_date">
+              
+              <button type="submit" class="btn btn-primary">Compare</button>
+            </form>
+
+            {% if comparison_html %}
+              <div class="mt-4">
+                {{ comparison_html|safe }}
+              </div>
+            {% endif %}
+          </div>
+        </div>
+
+        <!-- TAB C: Strategies (placeholder) -->
+        <div 
+          class="tab-pane fade {% if active_tab == 'strategy' %}show active{% endif %}" 
+          id="strategy-tab-pane" 
+          role="tabpanel" 
+          aria-labelledby="strategy-tab">
+          <div class="p-3">
+            <h3>Trading Strategies</h3>
+            <form method="POST">
+              <input type="hidden" name="form_type" value="strategy">
+              <div class="mb-3">
+                <label for="symbol" class="form-label">Stock Symbol</label>
+                <input type="text" class="form-control" id="symbol" name="symbol" required>
+              </div>
+              <!-- Additional fields or dropdown for strategy type, windows, etc. -->
+              <button type="submit" class="btn btn-primary">Run Strategy</button>
+            </form>
+
+            {% if strategy_html %}
+              <div class="mt-4">
+                {{ strategy_html|safe }}
+              </div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
+    <!-- Ion.RangeSlider JS -->
+    <script src="https://cdn.jsdelivr.net/npm/ion-rangeslider@2.3.1/js/ion.rangeSlider.min.js"></script>
+    
+    <!-- Your custom JS to handle two sliders -->
+    <script src="{{ url_for('static', filename='date_slider.js') }}"></script>
+
+    <!-- Bootstrap JS (optional) -->
+    <script 
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js">
+    </script>
+  </body>
+</html>

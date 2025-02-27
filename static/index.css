@@ -1,0 +1,92 @@
+/* Global Styles */
+body {
+    background-color: #121212;  /* Dark background */
+    color: #e0e0e0;             /* Light text */
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .hero-title {
+    font-family: 'Montserrat', sans-serif; /* Use the new font */
+    font-size: 4rem; /* Larger size */
+    font-weight: 700;
+    color: #ff5722; /* Accent color, adjust as needed */
+    margin: 0;
+  }
+
+  
+  /* Navbar Styling */
+  .navbar {
+    background-color: #1f1f1f !important; /* Slightly lighter dark */
+  }
+  
+  .navbar-brand {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #ff5722 !important;  /* Accent color */
+  }
+  
+  /* Nav Tabs */
+  .nav-tabs .nav-link {
+    background-color: #2c2c2c;
+    color: #e0e0e0;
+    border: none;
+    transition: background-color 0.3s ease;
+  }
+  
+  .nav-tabs .nav-link:hover {
+    background-color: #383838;
+  }
+  
+  .nav-tabs .nav-link.active {
+    background-color: #ff5722;  /* Active accent */
+    color: #ffffff;
+  }
+  
+  /* Card Component */
+  .card, .tab-pane .p-3 {
+    background-color: #1e1e1e;
+    border: none;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  /* Form Inputs */
+  .form-control {
+    background-color: #2c2c2c;
+    border: 1px solid #444;
+    color: #e0e0e0;
+    border-radius: 0.25rem;
+  }
+  
+  .form-control:focus {
+    border-color: #ff5722;
+    box-shadow: 0 0 5px rgba(255, 87, 34, 0.5);
+  }
+  
+  /* Buttons */
+  .btn-primary {
+    background-color: #ff5722;
+    border-color: #ff5722;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+  }
+  
+  .btn-primary:hover {
+    background-color: #e64a19;
+    border-color: #e64a19;
+  }
+  
+  /* Ion.RangeSlider customization (if needed) */
+  .irs--round .irs-bar, 
+  .irs--round .irs-bar-edge {
+    background-color: #ff5722;
+  }
+  
+  .irs--round .irs-handle {
+    border: 2px solid #ff5722;
+    background-color: #ffffff;
+  }
+  

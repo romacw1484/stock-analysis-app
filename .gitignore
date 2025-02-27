@@ -1,0 +1,18 @@
+# Ignore virtual environments (adjust the folder names as needed)
+venv/
+stock-analysis-app/
+
+# Ignore Python cache files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Ignore editor and IDE files
+.vscode/
+.idea/
+
+# Ignore log files and build artifacts
+*.log
+build/
+dist/
